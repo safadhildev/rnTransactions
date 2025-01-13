@@ -1,8 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import Typo from './Typo';
-import colors from './constants/colors';
 
 const Header = ({title = null, LeftAction = null, RightAction = null}) => {
   return (
@@ -27,7 +26,7 @@ Header.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: 80,
+    height: 50,
     justifyContent: 'space-between',
     alignItems: 'center',
   },
@@ -40,7 +39,7 @@ const styles = StyleSheet.create({
   title: {
     flex: 1,
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: 20,
     marginBottom: 3,
   },
 });

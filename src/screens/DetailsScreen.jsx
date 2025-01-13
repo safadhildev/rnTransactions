@@ -7,18 +7,7 @@ import Header from '../components/Header';
 import Button from '../components/IconButton';
 import Typo from '../components/Typo';
 import useTransactionsStore from '../services/useTransactionsStore';
-
-const DetailsItem = ({label, value, seperator = false}) => {
-  return (
-    <>
-      <View style={styles.detailsItem}>
-        <Typo text={label} align="left" />
-        <Typo text={value} align="right" />
-      </View>
-      {seperator && <View style={styles.seperator} />}
-    </>
-  );
-};
+import DetailsItem from '../components/DetailsItem';
 
 const DetailsScreen = () => {
   const navigation = useNavigation();
