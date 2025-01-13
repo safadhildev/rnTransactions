@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
-import colors from './colors';
+import colors from './constants/colors';
 
 const Typo = ({
   text,

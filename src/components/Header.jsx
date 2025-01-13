@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {StyleSheet, Text, View} from 'react-native';
 import Typo from './Typo';
-import colors from './colors';
+import colors from './constants/colors';
 
 const Header = ({title = null, LeftAction = null, RightAction = null}) => {
   return (

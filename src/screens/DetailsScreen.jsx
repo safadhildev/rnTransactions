@@ -1,12 +1,12 @@
 import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, Text, View, Share} from 'react-native';
-import Header from '../components/Header';
 import {NavArrowLeft, ShareAndroid} from 'iconoir-react-native';
-import colors from '../components/colors';
+import React, {useEffect, useState} from 'react';
+import {Share, StyleSheet, View} from 'react-native';
+import colors from '../components/constants/colors';
+import Header from '../components/Header';
 import Button from '../components/IconButton';
 import Typo from '../components/Typo';
-import {objectToArray} from '../utils';
+import useTransactionsStore from '../services/useTransactionsStore';
 
 const DetailsItem = ({label, value, seperator = false}) => {
   return (
@@ -23,6 +23,8 @@ const DetailsItem = ({label, value, seperator = false}) => {
 const DetailsScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
+
+  const {getTransactionById} = useTransactionsStore();
 
   const [data, setData] = useState(null);
 
@@ -53,11 +55,12 @@ const DetailsScreen = () => {
 
   useEffect(() => {
     const _handleData = () => {
-      setData(route.params?.data);
+      const item = getTransactionById(route.params?.id);
+      setData(item);
     };
 
     _handleData();
-  }, [route]);
+  }, [getTransactionById, route]);
 
   return (
     <View style={styles.container}>

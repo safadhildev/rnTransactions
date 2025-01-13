@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import colors from './colors';
+import colors from './constants/colors';
 import Typo from './Typo';
 
 const TransactionItem = ({

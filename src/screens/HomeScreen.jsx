@@ -1,38 +1,31 @@
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import colors from '../components/colors';
+import colors from '../components/constants/colors';
 import Header from '../components/Header';
 import LoadingOverlay from '../components/LoadingOverlay';
 import TransactionItem from '../components/TransactionItem';
 import {DETAILS_SCREEN} from '../routes/navigationConstant';
-import {fetchTransactions} from '../services/api';
+
+import useTransactionsStore from '../services/useTransactionsStore';
 import {insertString} from '../utils';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const [transactions, setTransactions] = useState([]);
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+
+  const {fetchTransactions, isLoading, transactions} = useTransactionsStore();
 
   const _getTransactions = useCallback(async () => {
     try {
-      const response = await fetchTransactions();
-      const results = response.data;
-      setTransactions(results);
-    } catch (err) {
-      console.log(err);
+      await fetchTransactions();
+    } catch (error) {
+      console.log('Home >> _getTransactions >> Error >>', error);
     } finally {
-      if (initialLoading) {
-        setInitialLoading(false);
-      }
-      setIsLoading(false);
     }
-  }, [initialLoading]);
+  }, [fetchTransactions]);
 
   const _onRefresh = async () => {
-    setIsLoading(true);
     await _getTransactions();
   };
 
@@ -40,11 +33,8 @@ const HomeScreen = () => {
     _getTransactions();
   }, [_getTransactions]);
 
-  const _onPressItem = item => {
-    console.log('[DEBUG] >> ', {item});
-    navigation.navigate(DETAILS_SCREEN, {
-      data: item,
-    });
+  const _onPressItem = id => {
+    navigation.navigate(DETAILS_SCREEN, {id});
   };
 
   const _renderItem = ({item}) => {
@@ -62,14 +52,7 @@ const HomeScreen = () => {
         title={item?.recipientName}
         amount={parsedAmount}
         description={parsedDate}
-        onPress={() =>
-          _onPressItem({
-            ...item,
-            amount: parsedAmount,
-            transferDate: parsedDate,
-            isIncoming,
-          })
-        }
+        onPress={() => _onPressItem(item?.refId)}
         isIncoming={isIncoming}
       />
     );
@@ -77,13 +60,14 @@ const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      {initialLoading && <LoadingOverlay />}
+      {isLoading && <LoadingOverlay />}
       <Header title="Transactions" />
       <FlatList
         contentContainerStyle={styles.listContainer}
         data={transactions}
         renderItem={_renderItem}
         refreshing={isLoading}
+        refreshControl={null}
         onRefresh={_onRefresh}
       />
     </View>

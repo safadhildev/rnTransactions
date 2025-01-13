@@ -8,7 +8,7 @@ import HomeScreen from '../screens/HomeScreen';
 import {DETAILS_SCREEN, HOME_SCREEN} from './navigationConstant';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {StatusBar, StyleSheet} from 'react-native';
-import colors from '../components/colors';
+import colors from '../components/constants/colors';
 
 const RootStack = createNativeStackNavigator({
   initialRouteName: HOME_SCREEN,
